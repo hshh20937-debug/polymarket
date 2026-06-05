@@ -1,0 +1,9 @@
+{
+  "balance": 0.43980465111040007,
+  "total_realized_pnl": 0.0,
+  "trade_count": 14,
+  "positions": [
+    {
+      "market_id": "0xef416cfd80afbb43c7550a8fe0f950679ab3d6e60551e2a90f230106809fe2c5",
+      "question": "Mike Johnson out as Speaker by June 30?",
+      "side": 
