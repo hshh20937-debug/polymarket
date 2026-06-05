@@ -666,6 +666,20 @@ class PolymarketBot:
 # =============================================================
 # ENTRY
 # =============================================================
+def _start_dashboard():
+    """Start Flask dashboard in background thread."""
+    import threading, sys
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("dashboard", os.path.join(os.path.dirname(__file__), "dashboard.py"))
+    if spec and spec.loader:
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        port = int(os.environ.get("PORT", 8080))
+        log.info("Dashboard starting on http://0.0.0.0:%d", port)
+        mod.app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
+    else:
+        log.warning("dashboard.py not found, skipping")
+
 if __name__ == "__main__":
     import sys
 
@@ -677,4 +691,6 @@ if __name__ == "__main__":
         bot.simulator.report()
         bot.simulator.print_positions()
     else:
+        t = threading.Thread(target=_start_dashboard, daemon=True)
+        t.start()
         bot.run()
